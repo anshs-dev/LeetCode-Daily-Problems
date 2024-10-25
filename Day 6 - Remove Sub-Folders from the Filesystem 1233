@@ -1,0 +1,17 @@
+class Solution {
+public:
+    vector<string> removeSubfolders(vector<string>& folders) {
+        // Sort the folder paths
+        sort(folders.begin(), folders.end());
+        vector<string> result;
+
+        for (const string& folder : folders) {
+            // If result is empty or current folder is not a sub-folder of the last added folder
+            if (result.empty() || folder.find(result.back() + '/') != 0) {
+                result.push_back(folder);
+            }
+        }
+        
+        return result;
+    }
+};
