@@ -1,0 +1,58 @@
+class Solution {
+public:
+    unordered_map<int, int> depth; // Stores depth of each node
+    unordered_map<int, int> height; // Stores height of each node
+    unordered_map<int, vector<int>> depthToHeights; // Tracks max heights at each depth
+
+    // Step 1: Preprocess the tree to calculate depth and height
+    int dfs(TreeNode* node, int d) {
+        if (!node) return -1;
+        depth[node->val] = d;
+        int leftHeight = dfs(node->left, d + 1);
+        int rightHeight = dfs(node->right, d + 1);
+        height[node->val] = 1 + max(leftHeight, rightHeight);
+        return height[node->val];
+    }
+
+    // Helper function to preprocess max heights for each depth level
+    void calculateDepthToHeights(TreeNode* node) {
+        if (!node) return;
+        int d = depth[node->val];
+        depthToHeights[d].push_back(height[node->val]);
+        calculateDepthToHeights(node->left);
+        calculateDepthToHeights(node->right);
+    }
+
+    vector<int> treeQueries(TreeNode* root, vector<int>& queries) {
+        // Preprocess the tree to compute depth and height of each node
+        dfs(root, 0);
+
+        // Calculate depth to heights mapping
+        calculateDepthToHeights(root);
+        // Sort the heights for each depth
+        for (auto& [d, heights] : depthToHeights) {
+            sort(heights.rbegin(), heights.rend()); // Sort in descending order
+        }
+
+        vector<int> result;
+        // Step 2: Answer each query
+        for (int query : queries) {
+            int d = depth[query];
+            int originalHeight = height[query];
+            // Check the heights at the same depth after removing the subtree
+            if (depthToHeights[d].size() == 1) {
+                // If there is only one height at this depth, then it will be removed
+                result.push_back(d - 1);
+            } else {
+                // Get the next largest height (not including the current node's height)
+                if (depthToHeights[d][0] == originalHeight) {
+                    result.push_back(d + depthToHeights[d][1]);
+                } else {
+                    result.push_back(d + depthToHeights[d][0]);
+                }
+            }
+        }
+
+        return result;
+    }
+};
