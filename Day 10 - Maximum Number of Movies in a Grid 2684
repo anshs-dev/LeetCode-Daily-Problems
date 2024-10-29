@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int maxMoves(vector<vector<int>>& grid) {
+        int rows = grid.size();
+        int cols = grid[0].size();
+        
+        // DP table initialized with zeros
+        vector<vector<int>> dp(rows, vector<int>(cols, 0));
+        int maxMoves = 0;
+        
+        // Fill DP table from right to left
+        for (int col = cols - 2; col >= 0; --col) {
+            for (int row = 0; row < rows; ++row) {
+                int maxForCell = 0;
+                
+                // Check three possible moves (right, up-right, down-right)
+                if (grid[row][col] < grid[row][col + 1]) {
+                    maxForCell = max(maxForCell, 1 + dp[row][col + 1]);
+                }
+                if (row > 0 && grid[row][col] < grid[row - 1][col + 1]) {
+                    maxForCell = max(maxForCell, 1 + dp[row - 1][col + 1]);
+                }
+                if (row < rows - 1 && grid[row][col] < grid[row + 1][col + 1]) {
+                    maxForCell = max(maxForCell, 1 + dp[row + 1][col + 1]);
+                }
+                
+                dp[row][col] = maxForCell;
+            }
+        }
+        
+        // Find the maximum moves starting from any cell in the first column
+        for (int row = 0; row < rows; ++row) {
+            maxMoves = max(maxMoves, dp[row][0]);
+        }
+        
+        return maxMoves;
+    }
+};
