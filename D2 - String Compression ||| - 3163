@@ -1,0 +1,31 @@
+class Solution {
+public:
+    string compressedString(string word) {
+        string s;
+        int len=word.length();
+        int count=1;
+        for(int i=0;i<len;i++){
+           if(word[i]==word[i+1]){
+            if(count==9){
+                s+=to_string(count);
+                s+=word[i];
+                count=1;
+                continue;
+            }
+            count++;
+           }
+           else{
+            if(count==1){
+                s+=to_string(count);
+                s+=word[i];
+            }
+            else{
+           s+=to_string(count);
+           s+=word[i];
+            count=1;
+            }
+           }
+        }
+        return s;
+    }
+};
