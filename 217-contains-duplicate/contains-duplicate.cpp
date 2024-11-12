@@ -1,17 +1,12 @@
 class Solution {
 public:
     bool containsDuplicate(vector<int>& nums) {
-        priority_queue<int>maxHeap(nums.begin(),nums.end());
-        int first=maxHeap.top();
-        maxHeap.pop();
-        while(maxHeap.size()!=0){
-        int second=maxHeap.top();
-        maxHeap.pop();
-        if(first==second)
-        return 1;
-        else
-        first=second;
+        unordered_map<int,int>win;
+        for(int i:nums){
+            win[i]++;
+            if(win[i]>1)
+            return true;
         }
-        return 0;
+        return false;
     }
 };
