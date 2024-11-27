@@ -1,10 +1,10 @@
 class Solution {
 public:
     int strStr(string haystack, string needle) {
-        if(needle.empty() || haystack.empty())
+        if(haystack.length()==0 || needle.length()==0)
         return -1;
-        size_t index=haystack.find(needle);
-        if(index!=std::string::npos)
+        int index = haystack.find(needle);
+        if(index!=-1)
         return index;
         else
         return -1;
