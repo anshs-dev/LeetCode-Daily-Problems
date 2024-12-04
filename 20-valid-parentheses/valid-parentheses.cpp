@@ -1,18 +1,20 @@
 class Solution {
 public:
     bool isValid(string s) {
-        stack<char>stuck;
-        unordered_map<char,char>m={{')','('},{'}','{'},{']','['}};
-        for(char c:s){
-            if(m.count(c)){
-                if(!stuck.empty() && stuck.top()==m[c])
-                stuck.pop();
+        stack<char>tree;
+        unordered_map<char,char>m={{')','('},{']','['},{'}','{'}};
+        for(char x:s){
+            if(m.count(x)){
+                if(!tree.empty() && tree.top()==m[x])
+                tree.pop();
                 else
                 return false;
             }
             else
-            stuck.push(c);
+                tree.push(x);
+            
         }
-        return !bool(stuck.size());
+        return tree.empty();
+      
     }
 };
