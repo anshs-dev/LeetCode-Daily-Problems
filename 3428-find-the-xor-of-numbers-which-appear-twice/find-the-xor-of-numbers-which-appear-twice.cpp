@@ -2,7 +2,8 @@ class Solution {
 public:
     int duplicateNumbersXOR(vector<int>& nums) {
         unordered_map<int,int>m;
-        for(int x:nums) m[x]++;
+        for(int x:nums) 
+        m[x]++;
         vector<int>result;
         for(auto &x:m){
             if(x.second==2)
