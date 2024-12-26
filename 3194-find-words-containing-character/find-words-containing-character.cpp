@@ -4,7 +4,10 @@ public:
         int i=0;
         vector<int>result;
         for(string str:words){
-            if(str.find(x)!=std::string::npos)
+            unordered_map<char,int>m;
+            for(char c:str)
+            m[c]++;
+            if(m[x]>0)
             result.push_back(i);
             i++;
         }
