@@ -6,9 +6,7 @@ public:
         for(int x:time){
             int remainder=x%60;
             int complement=(60-remainder)%60;
-            if(m.count(complement)){
                 count+=m[complement];
-            }
             m[remainder]++;
         }
         return count;
