@@ -7,8 +7,7 @@ public:
         for(int x:nums){
         int temp=x;
         while(temp!=0){
-            int d=temp%10;
-            sum2+=d;
+            sum2+=temp%10;
             temp/=10;
         }
         }
