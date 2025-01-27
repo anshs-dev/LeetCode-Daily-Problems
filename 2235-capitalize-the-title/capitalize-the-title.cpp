@@ -8,8 +8,7 @@ public:
         for(string &x:result){
             cout<<x;
             if(x.length()<=2){
-                for(int i=0;i<x.length();i++)
-                x[i]=tolower(x[i]);
+                for(char &a:x) a=tolower(a);
             }
             else{
                 x[0]=toupper(x[0]);
