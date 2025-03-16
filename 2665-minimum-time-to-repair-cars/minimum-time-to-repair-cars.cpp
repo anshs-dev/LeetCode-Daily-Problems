@@ -1,29 +1,27 @@
-#include <cmath>
-#include <vector>
-using namespace std;
-
 class Solution {
 public:
-    bool timeIsSuff(vector<int>& ranks, int cars, long long minGiven) {
-        long long carsDone = 0;
-        for (int r : ranks) {
-            long long c2 = minGiven / r;
-            long long c = floor(sqrt(c2));
-            carsDone += c;
+    int freq[101]={0}, minR=101, maxR=0;
+    inline bool canRepair(int cars, long long t){
+        long long cnt=0;
+        for(int x=minR; x<=maxR; x++) {
+            cnt+=freq[x]*(long long)sqrt(t/x);
+            if (cnt>=cars) return 1;
         }
-        return carsDone >= cars;
+        return cnt>=cars;
     }
-    
     long long repairCars(vector<int>& ranks, int cars) {
-        long long l = 1, r = 1e14;
-        while (l < r) {
-            long long mid = (l + r) / 2;
-            if (timeIsSuff(ranks, cars, mid)) {
-                r = mid;
-            } else {
-                l = mid + 1;
-            }
+        for(int x: ranks){
+            minR=min(x, minR);
+            maxR=max(x, maxR);
+            freq[x]++;
         }
-        return l;
+        long long l=1, r=1LL*minR*cars*cars, m;
+        
+        while(l<r){
+            m=(l+r)/2;
+            if (canRepair(cars, m)) r=m;
+            else l=m+1;
+        }
+        return l; 
     }
 };
