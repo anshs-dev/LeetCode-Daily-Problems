@@ -1,13 +1,14 @@
 class Solution {
 public:
     bool canAliceWin(vector<int>& nums) {
-        int sum1=0,sum2=0;
-        for(int x:nums){
-            if(x<10)
-            sum1+=x;
-            else
-            sum2+=x;
+        int single = 0;
+        int  dob = 0;
+        int oth = 0;
+        for(int x :nums){
+            if(x < 10) single+=x;
+            else if(x>=10 && x<=99) dob+=x;
+            else oth+=x;
         }
-        return sum1==sum2?false:true;
+        return single>dob+oth || dob>single+oth;
     }
 };
