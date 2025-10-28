@@ -1,29 +1,17 @@
 class Solution {
 public:
-    bool allzero(vector<int> &temp){
-        for(int x:temp) if(x!=0) return false;
-        return true;
-    }
-    bool checkleft(vector<int>temp,int i,bool dir){
-        while(i>=0 && i<temp.size()){
-            if(temp[i]==0){
-                if(!dir) i--;
-                else i++;
-            }
-            else{
-                temp[i]--;
-                dir=!dir;
-                if(!dir) i--;
-                else i++;
-            }
-        }
-        return allzero(temp);
-    }
     int countValidSelections(vector<int>& nums) {
+        vector<int>pref(nums.size()+1,0),suff(nums.size()+1,0);
+        pref[0]=nums[0];
+        for(int i=1;i<nums.size();i++) pref[i]=nums[i]+pref[i-1];
+        suff[nums.size()-1]=nums[nums.size()-1];
+        for(int i=nums.size()-2;i>=0;i--) suff[i]=nums[i]+suff[i+1];
         int count=0;
         for(int i=0;i<nums.size();i++){
-            if(nums[i]==0 && checkleft(nums,i,false)) count++;
-            if(nums[i]==0 && checkleft(nums,i,true)) count++; 
+            if(nums[i]==0){
+                if(pref[i]==suff[i]) count+=2;
+                else if(abs(pref[i]-suff[i])==1) count++;
+            }
         }
         return count;
     }
