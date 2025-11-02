@@ -1,34 +1,58 @@
 class Solution {
 public:
     int countUnguarded(int m, int n, vector<vector<int>>& guards, vector<vector<int>>& walls) {
-        int g[m][n];
-        memset(g, 0, sizeof(g));
-                for (auto& e : guards) {
-            g[e[0]][e[1]] = 2;
-        }
-        for (auto& e : walls) {
-            g[e[0]][e[1]] = 2;
-        }
-        
-       int dirs[5] = {-1, 0, 1, 0, -1};
-        
-      for (auto& e : guards) {
-            for (int k = 0; k < 4; ++k) {
-                int x = e[0], y = e[1];
-                int dx = dirs[k], dy = dirs[k + 1];
-                while (x + dx >= 0 && x + dx < m && y + dy >= 0 && y + dy < n && g[x + dx][y + dy] < 2) {
-                    x += dx;
-                    y += dy;
-                    g[x][y] = 1;
-                }
+        // Legend:  1 = empty,  2 = guard,  0 = guarded empty,  -1 = wall
+        vector<vector<int>> v(m, vector<int>(n, 1));
+
+        // mark walls and guards (guards as 2 now)
+        for (auto &x : walls) v[x[0]][x[1]] = -1;
+        for (auto &x : guards) v[x[0]][x[1]] = 2;
+
+        // mark guarded cells row-wise (left → right)
+        for (int i = 0; i < m; i++) {
+            bool seen = false;
+            for (int j = 0; j < n; j++) {
+                if (v[i][j] == -1) seen = false;         // wall breaks vision
+                else if (v[i][j] == 2) seen = true;     // guard starts vision (only guard value)
+                else if (seen && v[i][j] == 1) v[i][j] = 0; // mark empty as guarded
             }
         }
-        
-                int unguardedCount = 0;
+
+        // mark guarded cells row-wise (right → left)
         for (int i = 0; i < m; i++) {
-            unguardedCount += count(g[i], g[i] + n, 0);
+            bool seen = false;
+            for (int j = n - 1; j >= 0; j--) {
+                if (v[i][j] == -1) seen = false;
+                else if (v[i][j] == 2) seen = true;
+                else if (seen && v[i][j] == 1) v[i][j] = 0;
+            }
         }
-        
-        return unguardedCount;
+
+        // mark guarded cells column-wise (top → bottom)
+        for (int j = 0; j < n; j++) {
+            bool seen = false;
+            for (int i = 0; i < m; i++) {
+                if (v[i][j] == -1) seen = false;
+                else if (v[i][j] == 2) seen = true;
+                else if (seen && v[i][j] == 1) v[i][j] = 0;
+            }
+        }
+
+        // mark guarded cells column-wise (bottom → top)
+        for (int j = 0; j < n; j++) {
+            bool seen = false;
+            for (int i = m - 1; i >= 0; i--) {
+                if (v[i][j] == -1) seen = false;
+                else if (v[i][j] == 2) seen = true;
+                else if (seen && v[i][j] == 1) v[i][j] = 0;
+            }
+        }
+
+        int sum = 0;
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
+                if (v[i][j] == 1) sum++;
+
+        return sum;
     }
 };
