@@ -11,26 +11,21 @@
  */
 class Solution {
 public:
-    vector<int> arr;
-    void preOrder(TreeNode* Node,  int level){
-        if (Node== NULL) return;
-        if (arr.size()<=level) arr.push_back(INT_MIN);
-        arr[level]=max(arr[level], Node->val);
-
-        preOrder(Node->left, level+1);
-        preOrder(Node->right, level+1);     
-    }
-
     vector<int> largestValues(TreeNode* root) {
-        if (root==NULL) return {};
-        preOrder(root, 0);
-        return arr;
+        if(!root) return {};
+        vector<int>result;
+        queue<TreeNode*>q;
+        q.push(root);
+        while(!q.empty()){
+            int size=q.size(),ans=INT_MIN;
+            while(size--){
+                ans=max(ans,q.front()->val);
+                if(q.front()->left) q.push(q.front()->left);
+                if(q.front()->right) q.push(q.front()->right);
+                q.pop();
+            }
+            result.push_back(ans);
+        }
+        return result;
     }
 };
-auto init = []()
-{ 
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-    return 'c';
-}();
