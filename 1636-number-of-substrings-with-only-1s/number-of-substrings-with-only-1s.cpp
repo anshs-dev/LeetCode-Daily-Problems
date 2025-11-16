@@ -1,20 +1,12 @@
 class Solution {
 public:
+    const int mod=1e9+7;
     int numSub(string s) {
-        long long consecutive=0;
-        long long total=0;
-        const int MOD = 1e9 + 7;
-        for(int i=0;i<s.length();i++){
-            if(s[i]=='1'){
-                consecutive++;
-            }
-            else{
-               total=(total+consecutive*(consecutive+1)/2 % MOD) % MOD;
-               consecutive=0;
-            }
+        int left=0,count=0;
+        for(long long right=0;right<s.length();right++){
+            if(s[right]=='0') left=right+1;
+            else count=(count+(right-left+1)%mod)%mod;
         }
-        if(s[s.length()-1]=='1')
-        total=(total+consecutive*(consecutive+1)/2 % MOD) % MOD;
-        return total;
+        return count;
     }
 };
