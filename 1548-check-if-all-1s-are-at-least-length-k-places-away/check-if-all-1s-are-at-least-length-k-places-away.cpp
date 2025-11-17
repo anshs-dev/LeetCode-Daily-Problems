@@ -5,7 +5,6 @@ public:
         for(int i=0;i<nums.size();i++){
             if(nums[i]==1 && i-prev<=k) return false;
             if(nums[i]==1) prev=i;
-            cout<<nums[i]<<" ";
         }
         return true;
     }
