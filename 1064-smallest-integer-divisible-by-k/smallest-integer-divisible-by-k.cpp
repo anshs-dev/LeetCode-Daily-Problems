@@ -1,7 +1,7 @@
 class Solution {
 public:
     int smallestRepunitDivByK(int k) {
-        if(k%2==0) return -1;
+        if(k%2==0 || k%5==0) return -1;
         int num=1;
         for(int i=1;i<=100000;i++){
             if(num%k==0) return i;
