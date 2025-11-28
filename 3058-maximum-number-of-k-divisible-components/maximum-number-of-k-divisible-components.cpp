@@ -1,36 +1,21 @@
 class Solution {
 public:
-    int maxKDivisibleComponents(int n, vector<vector<int>>& edges, vector<int>& vals, int k) {
-        vector<vector<int>> graph(n);
-        vector<int> degree(n);
-        if (n < 2) return 1;
-        for (auto& edge : edges) {
-            graph[edge[0]].push_back(edge[1]);
-            graph[edge[1]].push_back(edge[0]);
-            degree[edge[0]]++;
-            degree[edge[1]]++;
+    int maxKDivisibleComponents(int n, vector<vector<int>>& edges, vector<int>& values, int k) {
+        vector<vector<int>> g(n);
+        for (auto &e : edges) {
+            g[e[0]].push_back(e[1]);
+            g[e[1]].push_back(e[0]);
         }
-
-        vector<long long> nodeVal(vals.begin(), vals.end());
-        queue<int> leafQ;
-        for (int i = 0; i < n; i++) 
-            if (degree[i] == 1) leafQ.push(i);
-
-        int compCnt = 0;
-        while (!leafQ.empty()) {
-            int curr = leafQ.front();
-            leafQ.pop();
-            degree[curr]--;
-            long long carry = 0;
-            if (nodeVal[curr] % k == 0) compCnt++;
-            else carry = nodeVal[curr];
-            for (int nbr : graph[curr]) {
-                if (degree[nbr] == 0) continue;
-                degree[nbr]--;
-                nodeVal[nbr] += carry;
-                if (degree[nbr] == 1) leafQ.push(nbr);
-            }
-        }
-        return compCnt;
+        vector<char> vis(n, 0);
+        long long cnt = 0;
+        function<int(int)> dfs = [&](int u) -> int {
+            vis[u] = 1;
+            int s = ((values[u] % k) + k) % k;
+            for (int v : g[u]) if (!vis[v]) s = (s + dfs(v)) % k;
+            if (s == 0) { cnt++; return 0; }
+            return s;
+        };
+        dfs(0);
+        return (int)cnt;
     }
 };
