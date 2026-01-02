@@ -1,13 +1,9 @@
 class Solution {
 public:
-    int repeatedNTimes(vector<int>& nums) {
-        unordered_map<int,int>m;
-        for(int x:nums)
-        m[x]++;
-        for(auto &x:m){
-            if(x.second==nums.size()/2)
-            return x.first;
-        }
-        return -1;
+    int repeatedNTimes(vector<int>& A) {
+        for (int i = 0; i < A.size() - 2; ++i)
+            if (A[i] == A[i + 1] || A[i] == A[i + 2])
+                return A[i];
+        return A.back();
     }
 };
