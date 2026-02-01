@@ -11,7 +11,6 @@ public:
                 dp[j]=dp[j] || dp[j-nums[i]];
             }
         }
-        for(auto x:dp) cout<<x<<" ";
         return dp[sum];
     }
 };
