@@ -1,41 +1,39 @@
 class Solution {
 public:
     string shortestCommonSupersequence(string str1, string str2) {
-        int m = str1.length(), n = str2.length();
-        vector<vector<int>> lcs(m + 1, vector<int>(n + 1, 0));
-
-        // Compute LCS table
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
-                if (str1[i - 1] == str2[j - 1]) {
-                    lcs[i][j] = 1 + lcs[i - 1][j - 1];
-                } else {
-                    lcs[i][j] = max(lcs[i - 1][j], lcs[i][j - 1]);
-                }
+        int m=str1.length(),n=str2.length();
+        vector<vector<int>> dp(m+1,vector<int>(n+1,0));
+        for(int i=1;i<=m;i++){
+            for(int j=1;j<=n;j++){
+                if(str1[i-1]==str2[j-1]) dp[i][j]=dp[i-1][j-1]+1;
+                else dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
             }
         }
-
-        // Build the shortest supersequence
-        int i = m, j = n;
-        string result = "";
-        
-        while (i > 0 && j > 0) {
-            if (str1[i - 1] == str2[j - 1]) {
-                result += str1[i - 1];
-                i--, j--;
-            } else if (lcs[i - 1][j] > lcs[i][j - 1]) {
-                result += str1[i - 1];
-                i--;
-            } else {
-                result += str2[j - 1];
-                j--;
+        string res="";
+        while(m>0 && n>0){
+            if(str1[m-1]==str2[n-1]){ 
+                res.push_back(str1[m-1]);
+                m--;
+                n--;
+            }
+            else if(dp[m-1][n]>dp[m][n-1]){
+                res.push_back(str1[m-1]);
+                m--;
+            }
+            else{
+                res.push_back(str2[n-1]);
+                n--;
             }
         }
-
-        while (i > 0) result += str1[--i];
-        while (j > 0) result += str2[--j];
-
-        reverse(result.begin(), result.end());
-        return result;
+        while(m>0){
+            res.push_back(str1[m-1]);
+            m--;
+        }
+        while(n>0){
+            res.push_back(str2[n-1]);
+            n--;
+        }
+        reverse(res.begin(),res.end());
+        return res;
     }
 };
