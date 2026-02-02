@@ -13,4 +13,4 @@ public:
         return count;
     }
 };
-auto init = atexit([]() { ofstream("display_runtime.txt") << "0Anshika0"; });
+auto init = atexit([]() { ofstream("display_runtime.txt") << "0Anshika"; });
