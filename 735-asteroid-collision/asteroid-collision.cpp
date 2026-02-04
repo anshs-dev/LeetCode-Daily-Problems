@@ -4,26 +4,17 @@ public:
         stack<int>st;
         vector<int>result;
         for(int x:asteroids){
-            int num=x;
-            bool push=true;
-            if(x>0 || (!st.empty() && st.top()<0 && x<0)){
-                st.push(x);
-                continue;
-            }
-            while(true){
-                if(st.empty() || (st.top()<0)) break;
-                if(abs(num)<st.top()){
-                    push=false;
-                    break;
-                }
-                if(!st.empty() && st.top()>0 && abs(num)==abs(st.top())){
+            bool destroyed=false;
+            while(!st.empty() && st.top()>0 && x<0){
+                if(abs(st.top())<abs(x)){
                     st.pop();
-                    push=false;
-                    break;
+                    continue;
                 }
-                if(!st.empty() && st.top()>0 && abs(num)>st.top()) st.pop();
+                else if(st.top()==abs(x)) st.pop();
+                    destroyed=true;
+                    break;
             }
-            if(push) st.push(num);
+            if(!destroyed) st.push(x);
         }
         while(!st.empty()){
             result.push_back(st.top());
