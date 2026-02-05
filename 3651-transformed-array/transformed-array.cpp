@@ -4,30 +4,19 @@ public:
 
         // i knew you will see the question, had added comments for the super duper coder 😎🧠✨
 
-        vector<int> result(nums.size());          // 📦 result array
-        int size = nums.size();                   // 📏 size of array
-        int move = 0;                             // ➡️ index movement holder
+        vector<int>result(nums.size()); // 📦 result array
+        int size=nums.size(); // 📏 size of array
+        int move=0; // ➡️ movement index
 
-        for(int i = 0; i < size; i++){
-
-            // 🛑 if value is 0, no movement needed
-            if(nums[i] == 0)
-                result[i] = nums[i];
-
+        for(int i=0;i<size;i++){
+            if(nums[i]==0) // 🛑 no movement if value is 0
+                result[i]=nums[i];
             else{
-                // 🧮 calculate new index with wrap-around
-                move = (i + nums[i]) % size;
-
-                // 🔄 handle negative index properly
-                if(move < 0) 
-                    move += size;
-
-                // 🎯 pick value from the calculated index
-                result[i] = nums[move];
-            }
+                move=(i+nums[i])%size; // 🧮 calculate new index
+                if(move<0) move+=size; // 🔄 fix negative index
+                result[i]=nums[move]; // 🎯 assign value
         }
-
-        // 🚀 return the transformed array
-        return result;
+        }
+        return result; // 🚀 final answer
     }
 };
