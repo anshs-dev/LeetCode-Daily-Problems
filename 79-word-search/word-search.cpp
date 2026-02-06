@@ -4,11 +4,11 @@ public:
         if(i<0 || i>=board.size() || j<0 || j>=board[0].size() || visited[i][j]) return false;
         temp+=board[i][j];
         visited[i][j]=true;
-        if(temp.size()==word.size() && temp==word) return true;
         if(temp.back()!=word[temp.length()-1]){
             visited[i][j]=false;
             return false;
         }
+        if(temp.size()==word.size()) return true;
         bool a=dfs(visited,board,word,i+1,j,temp);
         bool b=dfs(visited,board,word,i,j-1,temp);
         bool c=dfs(visited,board,word,i-1,j,temp);
