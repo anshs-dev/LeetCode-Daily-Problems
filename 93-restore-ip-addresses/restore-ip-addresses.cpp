@@ -17,7 +17,7 @@ public:
             t = s.substr(i, 2);
             if (t[0] == '0') return;
             if (dots < 3) t += ".";
-            cout<<t<<" ";
+            //cout<<t<<" ";
             curr.push_back(t);
             dfs(res, s, i + 2, curr, dots + 1);
             curr.pop_back();
@@ -27,7 +27,7 @@ public:
             if (stoi(t) > 255)  return;
             if (dots < 3) t += ".";
             curr.push_back(t);
-            cout<<t<<" ";
+            //cout<<t<<" ";
             dfs(res, s, i + 3, curr, dots + 1);
             curr.pop_back();
         }
