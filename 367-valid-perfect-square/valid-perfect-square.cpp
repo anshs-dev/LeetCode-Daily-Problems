@@ -1,18 +1,12 @@
 class Solution {
 public:
     bool isPerfectSquare(int num) {
-        int low=1;
-        if(num==1)
-        return true;
-        int high=num/2;
+        int low=1,high=num;
         while(low<=high){
-            int mid=(high+low)/2;
-            if((double)num/mid==mid)
-            return true;
-            else if((double)num/mid<mid)
-            high=mid-1;
-            else
-            low=mid+1;
+            long long mid=low+(high-low)/2;
+            if(mid*mid==num) return true;
+            else if(mid*mid>num) high=mid-1;
+            else low=mid+1;
         }
         return false;
     }
