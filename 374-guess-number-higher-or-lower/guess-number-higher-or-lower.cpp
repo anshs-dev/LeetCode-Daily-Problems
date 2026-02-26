@@ -10,21 +10,13 @@
 class Solution {
 public:
     int guessNumber(int n) {
-        int low=0;
-        int high=n;
-        int mid;
+        int low=1,high=n;
         while(low<=high){
-            mid=low+(high-low)/2;
-            int result=guess(mid);
-            if(result==0){
-                return mid;
-            }
-            else if(result==-1){
-                high=mid-1;
-            }
-            else
-            low=mid+1;
+            int mid=low+(high-low)/2;
+            if(guess(mid)==-1) high=mid-1;
+            else if(guess(mid)==1) low=mid+1;
+            else return mid;
         }
-        return mid;
+        return -1;
     }
 };
