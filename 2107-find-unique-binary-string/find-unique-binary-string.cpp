@@ -1,9 +1,8 @@
 class Solution {
 public:
     string findDifferentBinaryString(vector<string>& nums) {
-        string result="";
-        for(int i=0;i<nums.size();i++)
-        result+=nums[i][i]=='1'?'0':'1';
-        return result;
+        string temp="";
+        for(int i=0;i<nums.size();i++) nums[i][i]=='0'?temp+='1':temp+='0';
+        return temp;
     }
 };
