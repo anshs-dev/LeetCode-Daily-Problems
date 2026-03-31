@@ -12,18 +12,18 @@
 class Solution {
 public:
     bool balanced=true;
-    int dfs(TreeNode* root){
+    int helper(TreeNode* root){
         if(!root) return 0;
-        int left=1+dfs(root->left);
-        int right=1+dfs(root->right);
+        int left=helper(root->left);
+        int right=helper(root->right);
         if(abs(right-left)>1){
             balanced=false;
-            return -1;
+            return 0;
         }
-         return max(left,right);
+        return 1+max(left,right);
     }
     bool isBalanced(TreeNode* root) {
-        dfs(root);
+        helper(root);
         return balanced;
     }
 };
