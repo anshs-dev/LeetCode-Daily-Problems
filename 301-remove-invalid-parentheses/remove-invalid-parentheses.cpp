@@ -25,10 +25,14 @@ public:
                     return res;
                 }
             }
+            unordered_set<string>visited;
             for(auto x:st){
                 for(int i=0;i<x.size();i++){
-                    if(x[i]=='(' || x[i]==')')
-                    q.push(x.substr(0,i)+x.substr(i+1));
+                    if(x[i]=='(' || x[i]==')'){
+                        string temp=x.substr(0,i)+x.substr(i+1);
+                        if(visited.find(temp)==visited.end()) q.push(temp);
+                        visited.insert(temp);
+                    }
                 }
             }
         }
