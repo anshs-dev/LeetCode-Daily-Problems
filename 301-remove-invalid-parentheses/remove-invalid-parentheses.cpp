@@ -27,7 +27,8 @@ public:
             }
             for(auto x:st){
                 for(int i=0;i<x.size();i++){
-                    q.push(x.substr(0,i)+x.substr(i+1,x.size()));
+                    if(x[i]=='(' || x[i]==')')
+                    q.push(x.substr(0,i)+x.substr(i+1));
                 }
             }
         }
