@@ -4,7 +4,6 @@ public:
         if(curr<0 || curr>=arr.size() || visited[curr]) return false;
         if(arr[curr]==0) return true;
         visited[curr]=true;
-        cout<<curr;
         return dfs(arr,curr+arr[curr],visited) || dfs(arr,curr-arr[curr],visited);
     }
     bool canReach(vector<int>& arr, int start) {
