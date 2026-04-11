@@ -14,7 +14,7 @@ public:
                 temp--;
             }
             res=max(res,i-left+1);
-            cout<<res;
+            //cout<<res;
         }
         return res;
     }
