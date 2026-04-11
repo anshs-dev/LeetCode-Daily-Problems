@@ -6,7 +6,7 @@ public:
             if(nums[i]==1) curr++;
             while(left<=i && nums[i]==0 && temp==0){
                 curr--;
-                if(nums[left]==0 && temp<k) temp++;
+                if(nums[left]==0) temp++;
                 left++;
             }
             if(nums[i]==0 && temp>0){
