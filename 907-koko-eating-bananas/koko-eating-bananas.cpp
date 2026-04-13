@@ -6,8 +6,8 @@ public:
         return time<=h;
     }
     int minEatingSpeed(vector<int>& piles, int h) {
-        sort(piles.begin(),piles.end());
-        int low=1,high=piles.back();
+       // sort(piles.begin(),piles.end());
+        int low=1,high=*max_element(piles.begin(),piles.end());
         while(low<high){
             int mid=low+(high-low)/2;
             if(valid(piles,mid,h)) high=mid;
