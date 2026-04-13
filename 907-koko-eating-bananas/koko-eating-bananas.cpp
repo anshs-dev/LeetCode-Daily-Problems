@@ -1,25 +1,18 @@
 class Solution {
 public:
-    bool kyawokhasaktahai(vector<int>&piles,int speed,int h){
-            int sum=0;
-            for(int x:piles){
-                if(x%speed==0)
-                sum=sum+(x/speed);
-                else{
-                    sum=sum+(x/speed)+1;
-                }
-            }
-            return sum<=h;
-    }    
+    bool valid(vector<int> &piles, int mid,int h){
+        int time=0;
+        for(int x:piles) time+=((x+mid-1)/mid);
+        return time<=h;
+    }
     int minEatingSpeed(vector<int>& piles, int h) {
-     int low=1,high=*max_element(piles.begin(),piles.end());
-     while(low<high){
-        int mid=low+(high-low)/2;
-        if(kyawokhasaktahai(piles,mid,h))
-        high=mid;
-        else
-        low=mid+1;
-     }   
-     return low;
+        sort(piles.begin(),piles.end());
+        int low=1,high=piles.back();
+        while(low<high){
+            int mid=low+(high-low)/2;
+            if(valid(piles,mid,h)) high=mid;
+            else low=mid+1;
+        }
+        return high;
     }
 };
