@@ -1,32 +1,29 @@
 class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
-        vector<pair<int,int>>v={{1,0},{0,1},{-1,0},{0,-1}};
         queue<pair<int,int>>q;
-        int m=grid.size(),n=grid[0].size(),count=0,fresh=0;
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(grid[i][j]==2) q.push({i,j});
-                else if(grid[i][j]==1) fresh++;
-            }
+        int count=0,fresh=0,m=grid.size(),n=grid[0].size();
+        for(int i=0;i<m;i++) for(int j=0;j<n;j++){
+            if(grid[i][j]==1) fresh++;
+            else if(grid[i][j]==2) q.push({i,j});
         }
+        vector<pair<int,int>>dir={{1,0},{0,1},{-1,0},{0,-1}};
         while(!q.empty()){
-            int size=q.size();
             bool rotten=false;
+            int size=q.size();
             while(size--){
-            for(int i=0;i<4;i++){
-                int x=q.front().first+v[i].first,y=q.front().second+v[i].second;
-                if(x>=0 && x<m && y>=0 && y<n && grid[x][y]==1){
-                    rotten=true;
-                    grid[x][y]=2;
+                for(auto x:dir){
+                    int dx=q.front().first+x.first,dy=q.front().second+x.second;
+                    if(dx<0 || dy<0 || dx>=m || dy>=n || grid[dx][dy]!=1) continue;
                     fresh--;
-                    q.push({x,y});
+                    rotten=true;
+                    grid[dx][dy]=2;
+                    q.push({dx,dy});
                 }
+                q.pop();
             }
-            q.pop();
-        }
             if(rotten) count++;
         }
-        return fresh!=0?-1:count;
+        return fresh==0?count:-1;
     }
 };
