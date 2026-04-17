@@ -1,57 +1,31 @@
 class Solution {
 public:
-    unordered_map<int, vector<int>> adj;
-    unordered_map<int, int> deg;
-    inline void build_graph(vector<vector<int>>& pairs){
-        for(auto& edge: pairs){
-            int start=edge[0], end=edge[1];
-            adj[start].push_back(end);
-            deg[start]++;
-            deg[end]--;
-        }
-    }
-    vector<int> rpath;
-    inline void euler(int i){
-        vector<int> stk={i};
-        while(!stk.empty()){
-            i = stk.back();
-            if(adj[i].empty()){
-                rpath.push_back(i);
-                stk.pop_back();
-            } 
-            else {
-                int j=adj[i].back();
-                adj[i].pop_back();
-                stk.push_back(j);
-            }
+    void dfs(unordered_map<int,multiset<int>> &m, vector<vector<int>> &result, int prev){
+        while(!m[prev].empty()){
+            auto it=m[prev].begin();
+            int curr=*it;
+            m[prev].erase(it);
+            dfs(m,result,curr);
+            result.push_back({prev,curr});
         }
     }
     vector<vector<int>> validArrangement(vector<vector<int>>& pairs) {
-        const int e = pairs.size();
-        adj.reserve(e);
-        deg.reserve(e);
-        build_graph(pairs);
-        int i0=deg.begin()->first; 
-        for (auto& [v, d]: deg){
-            if (d == 1){
-                i0=v;
-                break;
-            } 
+        unordered_map<int,multiset<int>>m;
+        unordered_map<int,pair<int,int>> m2;
+        for(auto x:pairs){
+            m2[x[0]].second++;
+            m2[x[1]].first++;
+            m[x[0]].insert(x[1]);
         }
-        euler(i0);
-        vector<vector<int>> ans;
-        ans.reserve(e);
-
-        for (int i=rpath.size()-2; i>=0; i--) 
-            ans.push_back({rpath[i+1], rpath[i]});
-
-        return ans;
+        vector<vector<int>> result;
+        bool found=false;
+        for(auto x:m2) if(x.second.second==x.second.first+1) {
+            dfs(m,result,x.first);
+            found=true;
+            break;
+        }
+        if(!found) dfs(m,result,pairs[0][0]);
+        reverse(result.begin(),result.end());
+        return result;
     }
 };
-
-auto init = []() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-    return 'c';
-}();
