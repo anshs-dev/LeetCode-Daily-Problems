@@ -1,21 +1,20 @@
 class Solution {
 public:
-    void dfs(unordered_map<int,multiset<int>> &m, vector<vector<int>> &result, int prev){
+    void dfs(unordered_map<int,vector<int>> &m, vector<vector<int>> &result, int prev){
         while(!m[prev].empty()){
-            auto it=m[prev].begin();
-            int curr=*it;
-            m[prev].erase(it);
+            int curr=m[prev].back();
+            m[prev].pop_back();
             dfs(m,result,curr);
             result.push_back({prev,curr});
         }
     }
     vector<vector<int>> validArrangement(vector<vector<int>>& pairs) {
-        unordered_map<int,multiset<int>>m;
+        unordered_map<int,vector<int>>m;
         unordered_map<int,pair<int,int>> m2;
         for(auto x:pairs){
             m2[x[0]].second++;
             m2[x[1]].first++;
-            m[x[0]].insert(x[1]);
+            m[x[0]].push_back(x[1]);
         }
         vector<vector<int>> result;
         bool found=false;
