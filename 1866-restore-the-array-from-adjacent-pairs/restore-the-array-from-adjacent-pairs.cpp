@@ -4,9 +4,7 @@ public:
         for(int x:m[curr]){
             if(x==prev) continue;
             res.push_back(x);
-            prev=curr;
-            curr=x;
-            dfs(prev,res,m,curr);
+            dfs(curr,res,m,x);
             break;
         }
     }
