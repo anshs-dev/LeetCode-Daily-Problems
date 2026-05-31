@@ -1,28 +1,17 @@
 class Solution {
 public:
     string convert(string s, int numRows) {
-        if(numRows==1) return s;
-        string result="";
-        int jump=numRows*2-2;
-        for(int i=0;i<numRows;i++){
-        int start=i;
-        if(i==0 || i==numRows-1){
-            while(start<s.length()){
-                result+=s[start];
-                start+=jump;
-            }
+        if(numRows<=1 || numRows>=s.size()) return s;
+        vector<string>v(numRows);
+        int i=0,dir=1;
+        for(char x:s){
+            v[i]+=x;
+            if(i==0) dir=1;
+            if(i==numRows-1) dir=-1;
+            i+=dir;
         }
-        else{
-            int temp=jump-i*2;
-            while(start<s.length()){
-                result+=s[start];
-                start+=temp;
-                if(start<s.length())
-                result+=s[start];
-                start+=jump-temp;
-            }
-        }
-        }
-        return result;
+        string res="";
+        for(string x:v) res+=x;
+        return res;
     }
 };
