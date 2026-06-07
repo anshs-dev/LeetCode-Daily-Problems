@@ -1,22 +1,15 @@
 class Solution {
 public:
     vector<int> leftRightDifference(vector<int>& nums) {
-        int size=nums.size();
-        vector<int>leftsum(size,0);
-        vector<int>rightsum(size,0);
-        leftsum[0]=0;
-        rightsum[size-1]=0;
-        for(int i=1;i<nums.size();i++){
-            leftsum[i]=leftsum[i-1]+nums[i-1];
+        const int n=nums.size();
+    //    vector<int> ans(n);// no need
+        int lsum=0, rsum=accumulate(nums.begin(), nums.end(), 0);
+        for(int i=0; i<n; i++){
+            const int x=nums[i];
+            rsum-=x;
+            nums[i]=(rsum>=lsum)?rsum-lsum:lsum-rsum;// reuse
+            lsum+=x;
         }
-        for(int i=size-2;i>=0;i--){
-            rightsum[i]=rightsum[i+1]+nums[i+1];
-        }
-        vector<int>result;
-        for(int i=0;i<size;i++){
-            int sum=abs(leftsum[i]-rightsum[i]);
-            result.push_back(sum);
-        }
-        return result;
+        return nums;
     }
 };
