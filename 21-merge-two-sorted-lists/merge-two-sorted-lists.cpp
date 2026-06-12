@@ -11,50 +11,31 @@
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        if(list1==NULL)
-        return list2;
-        if(list2==NULL)
-        return list1;
-        ListNode *t1,*t2,*t3,*t4;
-        t1=list1;
-        t2=list2;
-        t3=NULL;
-        while(t1!=NULL && t2!=NULL){
+        ListNode* dummy=new ListNode(0);
+        ListNode* t1=list1,*t2=list2,*temp=dummy;
+        while(t1 && t2){
             if(t1->val<=t2->val){
-                if(t3==NULL){
-                    t3=t1;
-                    t1=t1->next;
-                    t4=t3;
-                }
-                else{
-                t3->next=t1;
+                temp->next=t1;
+                temp=temp->next;
                 t1=t1->next;
-                t3=t3->next;
-                }
             }
             else{
-                if(t3==NULL){
-                    t3=t2;
-                    t2=t2->next;
-                    t4=t3;
-                }
-                else{
-                    t3->next=t2;
-                    t2=t2->next;
-                    t3=t3->next;
-                }
-
+                temp->next=t2;
+                temp=temp->next;
+                t2=t2->next;
             }
         }
-            ListNode *temp;
-            temp=t1==NULL?t2:t1;
-            while(temp!=NULL){
-                t3->next=temp;
-                t3=t3->next;
-                temp=temp->next;
-            }
-        
-     return t4;
-
+        //ADD LEFTOVER LINKED LIST
+        while(t1){
+            temp->next=t1;
+            t1=t1->next;
+            temp=temp->next;
+        }
+        while(t2){
+            temp->next=t2;
+            t2=t2->next;
+            temp=temp->next;
+        }
+        return dummy->next;
     }
 };
