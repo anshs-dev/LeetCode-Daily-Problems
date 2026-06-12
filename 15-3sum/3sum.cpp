@@ -5,8 +5,7 @@ public:
         vector<vector<int>> result;
         for(int i=0;i<nums.size();i++){
             vector<int>temp;
-            while(i>0 && i<nums.size() && nums[i]==nums[i-1]) i++;
-            if(i>=nums.size()) return result;
+            if(i>0 && nums[i]==nums[i-1]) continue;
             int sum=nums[i];
             unordered_set<int>m;
             for(int j=i+1;j<nums.size();j++){
