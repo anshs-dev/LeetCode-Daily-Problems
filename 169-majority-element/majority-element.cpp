@@ -1,18 +1,13 @@
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
-        int n=nums.size();
-        unordered_map<int,int>m;
-        for(int x:nums)
-        m[x]++;
-        int maxfreq=-1;
-        int maxelement=0;
-        for(const auto &x:m){
-            if(x.second>maxfreq){
-            maxfreq=x.second;
-            maxelement=x.first;
+        //Boyes-Moore
+        int num=-1,freq=0;
+        for(int x:nums){
+            if(freq==0) num=x;
+            if(num==x) freq++;
+            else freq--;
         }
-        }
-        return maxelement;
+        return num;
     }
 };
