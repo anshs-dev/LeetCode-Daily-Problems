@@ -8,27 +8,12 @@ public:
                 sum-=nums[left];
                 left++;
             }
-            res+=(i-left+1);
+            res+=i-left+1;
         }
+        cout<<res<<endl;
         return res;
     }
     int numSubarraysWithSum(vector<int>& nums, int goal) {
         return helper(nums,goal)-helper(nums,goal-1);
     }
 };
-/*
-class Solution {
-public:
-    int numSubarraysWithSum(vector<int>& nums, int goal) {
-        long long curr=0,res=0;
-        unordered_map<int,int>m;
-        m[0]=1;
-        for(int x:nums){
-            curr+=x;
-            if(m.count(curr-goal)) res+=m[curr-goal];
-            m[curr]++;
-        }
-        return res;
-    }
-};
-*/
