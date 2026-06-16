@@ -1,21 +1,20 @@
 class Solution {
 public:
-    bool check(vector<int> &v1,vector<int> &v2){
-        for(int i=0;i<60;i++) if(v1[i]>v2[i]) return false;
-        return true;
-    }
     string minWindow(string s, string t) {
         int left=0,len=INT_MAX,start=-1;
-        vector<int>v(60,0),v2(60,0);
-        for(char x:t) v[x-65]++;
+        int count=t.size();
+        unordered_map<char,int>need,have;
+        for(char x:t) need[x]++;
         for(int i=0;i<s.size();i++){
-            v2[s[i]-65]++;
-            while(left<=i && check(v,v2)){
+            have[s[i]]++;
+            if(have[s[i]]<=need[s[i]]) count--;
+            while(count==0){
                 if(i-left+1<len){
                     start=left;
                     len=i-left+1;
                 }
-                v2[s[left]-65]--;
+                if(have[s[left]]<=need[s[left]]) count++;
+                have[s[left]]--;
                 left++;
             }
         }
