@@ -17,22 +17,22 @@ public:
         int sum=0;
         int minsum=INT_MAX;
         int maxsum=INT_MIN;
-        void print(info curr){
-            cout<<curr.isvalid<<" "
-                <<curr.sum<<" "
-                <<curr.minsum<<" "
-                <<curr.maxsum<<endl;
+        void print(){
+            cout<<isvalid<<" "
+                <<sum<<" "
+                <<minsum<<" "
+                <<maxsum<<endl;
         }
     };
     info helper(TreeNode* root){
         if(!root) return {true,0,INT_MAX,INT_MIN};
         info left=helper(root->left);
         info right=helper(root->right);
-        res=max({res,left.sum,right.sum});
+        res=max(res,max(left.sum,right.sum));
         /**
         cout<<root->val<<" "<<res<<endl;
-        left.print(left);
-        right.print(right);
+        left.print();
+        right.print();
         cout<<endl<<endl;
         **/
         //if(!root->left && !root->right) return {true,root->val,root->val,root->val};
