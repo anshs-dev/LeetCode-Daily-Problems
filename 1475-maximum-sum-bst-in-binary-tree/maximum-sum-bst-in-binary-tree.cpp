@@ -36,7 +36,7 @@ public:
         cout<<endl<<endl;
         **/
         //if(!root->left && !root->right) return {true,root->val,root->val,root->val};
-        if(left.isvalid && right.isvalid && root->val>left.maxsum && root->val<right.minsum) return {true,left.sum+right.sum+root->val,min({left.minsum,root->val,right.minsum}),max({left.maxsum,right.maxsum,root->val})};
+        if(left.isvalid && right.isvalid && root->val>left.maxsum && root->val<right.minsum) return {true,left.sum+right.sum+root->val,min({left.minsum,root->val,right.minsum}),max(left.maxsum,max(right.maxsum,root->val))};
         return {false,max(left.sum,right.sum),min(left.minsum,root->val),max(right.maxsum,root->val)};
     }
     int maxSumBST(TreeNode* root) {
