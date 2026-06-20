@@ -1,16 +1,7 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
 class Solution {
 public:
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
-        unordered_map<int,vector<int>> m;
+        unordered_map<int,vector<int>>m;
         queue<TreeNode*>q;
         q.push(root);
         while(!q.empty()){
@@ -26,35 +17,26 @@ public:
             }
             q.pop();
         }
-        unordered_set<int>st;
-        queue<int>qt;
-        qt.push(target->val);
         vector<int>res;
-        int dist=0;
-        /**
-        for(auto a:m){
-            cout<<a.first<<": ";
-            for(int x:a.second){
-                cout<<x<<" ";
-            }
-        }
-        */
-        while(!qt.empty()){
-            if(dist==k){
-                while(!qt.empty()){
-                    res.push_back(qt.front());
-                    qt.pop();
+        queue<int>q2;
+        unordered_set<int>visited;
+        q2.push(target->val);
+        while(!q2.empty()){
+            if(k==0){
+                while(!q2.empty()){
+                    res.push_back(q2.front());
+                    q2.pop();
                 }
                 return res;
             }
-            int size=qt.size();
+            int size=q2.size();
             while(size--){
-                st.insert(qt.front());
-                for(auto x:m[qt.front()]) if(!st.count(x)) qt.push(x);
-                qt.pop();
+                visited.insert(q2.front());
+                for(int x:m[q2.front()]) if(!visited.count(x)) q2.push(x);
+                q2.pop();
             }
-            dist++;
+            k--;
         }
-        return {};
+        return res;
     }
 };
