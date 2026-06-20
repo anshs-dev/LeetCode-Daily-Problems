@@ -1,17 +1,30 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
 public:
-    vector<unsigned long long>leftidx;
-    unsigned long long res=0;
-    void helper(TreeNode* root, unsigned long long level, unsigned long long idx){
-        if(!root) return;
-        if(leftidx.size()==level) leftidx.push_back(idx);
-        res=max(res,idx-leftidx[level]);
-        helper(root->left,level+1,idx*2);
-        helper(root->right,level+1,idx*2+1);
-    }
     int widthOfBinaryTree(TreeNode* root) {
-        helper(root,0,0);
-       // for(int x:leftidx) cout<<x<<endl;
+        queue<pair<TreeNode*,unsigned long long>>q;
+        q.push({root,0});
+        unsigned long long res=0;
+        while(!q.empty()){
+            int size=q.size();
+            unsigned long long left=q.front().second;
+            while(size--){
+                res=max(res,q.front().second-left);
+                if(q.front().first->left) q.push({q.front().first->left,q.front().second*2});
+                if(q.front().first->right) q.push({q.front().first->right,q.front().second*2+1});
+                q.pop();
+            }
+        }
         return res+1;
     }
 };
