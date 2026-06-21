@@ -1,29 +1,30 @@
 class Solution {
 public:
     vector<int> majorityElement(vector<int>& nums) {
-        int num1=-1,freq1=0,num2=-1,freq2=0;
+        int num1=-1,num2=-1,c1=0,c2=0;
         for(int x:nums){
-            if(x==num1) freq1++;
-            else if(x==num2) freq2++;
-            else if(freq1==0){
-                num1=x;
-                freq1=1;
-            }
-            else if(freq2==0){
+            if(x==num1) c1++;
+            else if(x==num2) c2++;
+            else if(c2==0){ 
                 num2=x;
-                freq2=1;
+                c2=1;
+            }
+            else if(c1==0){ 
+                num1=x;
+                c1=1;
             }
             else{
-                freq1--;
-                freq2--;
+                c1--;
+                c2--;
             }
         }
-        int count1=0,count2=0;
-        for(int x:nums) if(x==num1) count1++;
-        else if(x==num2) count2++;
-        if(count2>nums.size()/3 && num1!=num2 && count1>nums.size()/3) return {num1,num2};
-        if(count1>nums.size()/3) return {num1};
-        if(count2>nums.size()/3) return {num2};
+        int f1=0,f2=0;
+        for(int x:nums) if(x==num1) f1++;
+        else if(x==num2) f2++;
+        cout<<f1<<" "<<f2;
+        if(f2>nums.size()/3 && f1>nums.size()/3) return {num1,num2};
+        if(f1>nums.size()/3) return {num1};
+        if(f2>nums.size()/3) return {num2};
         return {};
     }
 };
