@@ -1,12 +1,11 @@
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
-        //Boyes-Moore
-        int num=-1,freq=0;
+        int num=-1,count=0;
         for(int x:nums){
-            if(freq==0) num=x;
-            if(num==x) freq++;
-            else freq--;
+            if(count==0) num=x;
+            if(x==num) count++;
+            else count--;
         }
         return num;
     }
