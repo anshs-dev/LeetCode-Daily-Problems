@@ -1,42 +1,54 @@
 class Solution {
 public:
-    void dfs(vector<string>& res, string s, int i, vector<string> curr, int dots) {
-        if (i >= s.length() && dots == 4) {
-            string temp = "";
-            for (string x : curr) temp += x;
-            res.push_back(temp);
+    vector<string>res;
+    void dfs(string s, string curr, int i,int& dots){
+        if(i==s.size() && dots==-1){
+            res.push_back(curr);
             return;
         }
-        if (dots >= 4 || i >= s.length()) return;
-        string t = s.substr(i, 1);
-        if (dots < 3) t += ".";
-        curr.push_back(t);
-        dfs(res, s, i + 1, curr, dots + 1);
-        curr.pop_back();
-        if (s.length() - i - 1 >= 1) {
-            t = s.substr(i, 2);
-            if (t[0] == '0') return;
-            if (dots < 3) t += ".";
-            //cout<<t<<" ";
-            curr.push_back(t);
-            dfs(res, s, i + 2, curr, dots + 1);
-            curr.pop_back();
+        if(i>=s.size()) return;
+        if(dots<0) return;
+        if(s[i]=='0'){
+            curr+="0";
+            if(dots>0) curr+=".";
+            dots--;
+            dfs(s,curr,i+1,dots);
+            dots++;
         }
-        if (s.length() - i - 1 >= 2) {
-            t = s.substr(i, 3);
-            if (stoi(t) > 255)  return;
-            if (dots < 3) t += ".";
-            curr.push_back(t);
-            //cout<<t<<" ";
-            dfs(res, s, i + 3, curr, dots + 1);
-            curr.pop_back();
+        else{
+            if(s.size()-i>=1){
+                curr+=s.substr(i,1);
+                if(dots>0) curr+=".";
+                dots--;
+                dfs(s,curr,i+1,dots);
+                dots++;
+                if(curr.back()=='.') curr.pop_back();
+                curr.pop_back();
+            }
+            if(s.size()-i>=2){
+                curr+=s.substr(i,2);
+                if(dots>0) curr+=".";
+                dots--;
+                dfs(s,curr,i+2,dots);
+                dots++;
+                if(curr.back()=='.') curr.pop_back();
+                for(int j=1;j<=2;j++) curr.pop_back();
+            }
+            if(s.size()-i>=3 && stoi(s.substr(i,3))<=255){
+                curr+=s.substr(i,3);
+                if(dots>0) curr+=".";
+                dots--;
+                dfs(s,curr,i+3,dots);
+                dots++;;
+                if(curr.back()=='.') curr.pop_back();
+                for(int j=1;j<=3;j++) curr.pop_back();
+            }
         }
     }
     vector<string> restoreIpAddresses(string s) {
-        if (s.length() > 12)
-            return {};
-        vector<string> res, curr;
-        dfs(res, s, 0, curr, 0);
+        string curr="";
+        int dots=3;
+        dfs(s,curr,0,dots);
         return res;
     }
 };
