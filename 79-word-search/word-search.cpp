@@ -1,27 +1,22 @@
 class Solution {
 public:
-    bool dfs(vector<vector<bool>> &visited,vector<vector<char>> &board,string word, int i, int j, string temp){
-        if(i<0 || i>=board.size() || j<0 || j>=board[0].size() || visited[i][j]) return false;
-        temp+=board[i][j];
+    bool dfs(vector<vector<char>>& board, string word, vector<vector<bool>> &visited, int i, int j, int m, int n, int k){
+        if(k==word.size()) return true;
+        if(i<0 || i>=m || j<0 || j>=n || visited[i][j] || board[i][j]!=word[k]) return false;
         visited[i][j]=true;
-        if(temp.back()!=word[temp.length()-1]){
-            visited[i][j]=false;
-            return false;
-        }
-        if(temp.size()==word.size()) return true;
-        bool a=dfs(visited,board,word,i+1,j,temp);
-        bool b=dfs(visited,board,word,i,j-1,temp);
-        bool c=dfs(visited,board,word,i-1,j,temp);
-        bool d=dfs(visited,board,word,i,j+1,temp);
+        bool a=dfs(board,word,visited,i+1,j,m,n,k+1); 
+        bool b=dfs(board,word,visited,i,j+1,m,n,k+1);  
+        bool c=dfs(board,word,visited,i-1,j,m,n,k+1);  
+        bool d=dfs(board,word,visited,i,j-1,m,n,k+1);
         visited[i][j]=false;
         return a || b || c || d;
     }
     bool exist(vector<vector<char>>& board, string word) {
-        string temp="";
-        vector<vector<bool>> visited(board.size(),vector<bool>(board[0].size(),false));
-        for(int i=0;i<board.size();i++){
-            for(int j=0;j<board[0].size();j++){
-                if(board[i][j]==word[0] && dfs(visited,board,word,i,j,temp)) return true;
+        int m=board.size(),n=board[0].size();
+        for(int i=0;i<m;i++){ 
+            for(int j=0;j<n;j++){
+                vector<vector<bool>> visited(m,vector<bool>(n,false));
+                if(board[i][j]==word[0] && dfs(board,word,visited,i,j,m,n,0)) return true;
             }
         }
         return false;
