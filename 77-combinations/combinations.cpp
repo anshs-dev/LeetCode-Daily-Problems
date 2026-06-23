@@ -1,20 +1,20 @@
 class Solution {
 public:
-    void dfs(vector<vector<int>> &res, vector<int> &temp, int n,int j,int k){
-        if(temp.size()==k){
-            res.push_back(temp);
+    vector<vector<int>> res;
+    void backtrack(int n, int k, vector<int>& curr, int i){
+        if(curr.size()==k){
+            res.push_back(curr);
             return;
         }
-        for(int i=j;i<=n;i++){
-            temp.push_back(i);
-            dfs(res,temp,n,i+1,k);
-            temp.pop_back();
+        for(int j=i;j<=n;j++){
+            curr.push_back(j);
+            backtrack(n,k,curr,j+1);
+            curr.pop_back();
         }
     }
     vector<vector<int>> combine(int n, int k) {
-        vector<vector<int>> res;
-        vector<int>temp;
-        dfs(res,temp,n,1,k);
+        vector<int>curr;
+        backtrack(n,k,curr,1);
         return res;
     }
 };
