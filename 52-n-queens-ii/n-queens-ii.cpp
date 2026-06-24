@@ -1,26 +1,23 @@
 class Solution {
 public:
-    int count=0;
-    void backtrack(vector<bool> &col, vector<bool> &diag1, vector<bool> &diag2, int i, int j, int n){
-        if(i==n){
-            count++;
-            return;
-        }
-        for(int k=0;k<n;k++){
-            if(!col[k] && !diag1[i+k] && !diag2[n+i-k]){
-                col[k]=true;
-                diag1[i+k]=true;
-                diag2[i+n-k]=true;
-                backtrack(col,diag1,diag2,i+1,j,n);
-                col[k]=false;
-                diag1[i+k]=false;
-                diag2[i+n-k]=false;
+    int res=0;
+    void backtrack(int n, vector<bool> &cols, vector<bool> &diag1, vector<bool> &diag2, int i){
+        if(i==n) res++;
+        for(int j=0;j<n;j++){
+            if(!cols[j] && !diag1[i+j] && !diag2[n+i-j-1]){
+                cols[j]=true;
+                diag1[i+j]=true;
+                diag2[n+i-j-1]=true;
+                backtrack(n,cols,diag1,diag2,i+1);
+                cols[j]=false;
+                diag1[i+j]=false;
+                diag2[n+i-j-1]=false;
             }
         }
     }
     int totalNQueens(int n) {
-        vector<bool>diag1(2*n,false),diag2(2*n,false),col(n,false);
-        backtrack(col,diag1,diag2,0,0,n);
-        return count;
+        vector<bool> cols(n,false),diag1(2*n-1,false),diag2(2*n-1,false);
+        backtrack(n,cols,diag1,diag2,0);
+        return res;
     }
 };
