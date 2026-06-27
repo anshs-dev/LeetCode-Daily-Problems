@@ -5,7 +5,7 @@ public:
         for(int x:nums){
             sum+=((x+mid-1)/mid);
         }
-        cout<<"mid -> "<<mid<<" "<<"cap ->  "<<cap<<" "<<"sum-> "<<sum<<endl; 
+        //cout<<"mid -> "<<mid<<" "<<"cap ->  "<<cap<<" "<<"sum-> "<<sum<<endl; 
         return sum<=cap;
     }
     int smallestDivisor(vector<int>& nums, int threshold) {
