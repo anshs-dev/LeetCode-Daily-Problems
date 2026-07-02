@@ -13,7 +13,6 @@ class Solution {
 public:
     void helper(TreeNode* root){
         if(!root) return;
-        if(!root->left && !root->right) return;
         swap(root->left,root->right);
         helper(root->left);
         helper(root->right);
