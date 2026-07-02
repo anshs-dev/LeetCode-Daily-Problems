@@ -11,14 +11,14 @@
  */
 class Solution {
 public:
-    void helper(TreeNode* r){
-        if(!r) return;
-        swap(r->left,r->right);
-        helper(r->left);
-        helper(r->right);
+    void helper(TreeNode* root){
+        if(!root) return;
+        if(!root->left && !root->right) return;
+        swap(root->left,root->right);
+        helper(root->left);
+        helper(root->right);
     }
     TreeNode* invertTree(TreeNode* root) {
-        if(!root) return nullptr;
         helper(root);
         return root;
     }
