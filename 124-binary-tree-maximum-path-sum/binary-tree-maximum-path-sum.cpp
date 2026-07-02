@@ -1,15 +1,26 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
 public:
-    int max_sum=-11111111;
+    int ans=INT_MIN;
     int helper(TreeNode* root){
         if(!root) return 0;
-        int lh=max(helper(root->left),0);
-        int rh=max(helper(root->right),0);
-        max_sum=max(max_sum,root->val+lh+rh);
-        return max(lh,rh)+root->val;
+        int left=helper(root->left);
+        int right=helper(root->right);
+        ans=max(ans,left+right+root->val);
+        return max(0,max(root->val,max(left,right)+root->val));
     }
     int maxPathSum(TreeNode* root) {
-       helper(root); 
-       return max_sum;
+        helper(root);
+        return ans;
     }
 };
