@@ -11,20 +11,20 @@
  */
 class Solution {
 public:
-    int count=0;
-    unordered_map<long long,int>m;
-    void helper(TreeNode* root, long long sum, int target){
+    void helper(TreeNode* root, int target, unordered_map<long long,int> &m, int& count, long long sum){
         if(!root) return;
         sum+=root->val;
         if(m.count(sum-target)) count+=m[sum-target];
         m[sum]++;
-        helper(root->left,sum,target);
-        helper(root->right,sum,target);
+        helper(root->left,target,m,count,sum);
+        helper(root->right,target,m,count,sum);
         m[sum]--;
     }
     int pathSum(TreeNode* root, int targetSum) {
+        unordered_map<long long, int>m;
         m[0]=1;
-        helper(root,0,targetSum);
+        int count=0;
+        helper(root,targetSum,m,count,0);
         return count;
     }
 };
