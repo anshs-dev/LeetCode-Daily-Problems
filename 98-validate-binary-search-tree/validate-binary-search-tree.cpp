@@ -11,12 +11,14 @@
  */
 class Solution {
 public:
-    bool inorder(TreeNode* root, long long mine,long long maxe){
+    bool helper(TreeNode* root, long long smallest, long long greatest){
         if(!root) return true;
-        if(root->val<=mine || root->val>=maxe) return false;
-        return inorder(root->left,mine,root->val) && inorder(root->right,root->val,maxe);
+        if(root->val>=smallest || root->val<=greatest) return false;
+        bool left=helper(root->left,root->val,greatest);
+        bool right=helper(root->right,smallest,root->val);
+        return left && right;
     }
     bool isValidBST(TreeNode* root) {
-        return inorder(root,LLONG_MIN,LLONG_MAX);
+        return helper(root,LLONG_MAX,LLONG_MIN);
     }
 };
