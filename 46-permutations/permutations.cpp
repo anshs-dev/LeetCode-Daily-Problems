@@ -1,17 +1,18 @@
 class Solution {
 public:
-    void dfs(vector<int> &nums, vector<vector<int>> &res, vector<int> curr, vector<bool> &visited){
+    void dfs(vector<int> &nums, vector<vector<int>> &res, vector<int> curr){
         if(curr.size()==nums.size()){
             res.push_back(curr);
             return;
         }
         for(int i=0;i<nums.size();i++){
-            if(!visited[i]){
+            if(nums[i]!=INT_MIN){
                 curr.push_back(nums[i]);
-                visited[i]=true;
-                dfs(nums,res,curr,visited);
-                visited[i]=false;
+                int val=nums[i];
+                nums[i]=INT_MIN;
+                dfs(nums,res,curr);
                 curr.pop_back();
+                nums[i]=val;
             }
         }
     }
@@ -19,7 +20,7 @@ public:
         vector<vector<int>> res;
         vector<int> curr;
         vector<bool> visited(nums.size(),false);
-        dfs(nums,res,curr,visited);
+        dfs(nums,res,curr);
         return res;
     }
 };
