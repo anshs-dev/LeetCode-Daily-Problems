@@ -11,14 +11,14 @@
  */
 class Solution {
 public:
-    bool helper(TreeNode* root, TreeNode* root2){
-        if(!root &&  !root2) return true;
-        if(!root || !root2) return false;
-        return root->val==root2->val && helper(root->left,root2->left) && helper(root->right,root2->right);
+    bool helper(TreeNode* p, TreeNode* q){
+        if(!p && !q) return true;
+        if(!p || !q) return false;
+        return p->val==q->val && helper(p->left,q->left) && helper(p->right,q->right);
     }
     bool isSubtree(TreeNode* root, TreeNode* subRoot) {
+        if(!root && !subRoot) return true;
         if(!root) return false;
-        if(!subRoot && !root) return true;
         if(root->val==subRoot->val && helper(root,subRoot)) return true;
         return isSubtree(root->left,subRoot) || isSubtree(root->right,subRoot);
     }
