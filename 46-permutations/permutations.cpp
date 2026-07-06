@@ -1,25 +1,25 @@
 class Solution {
 public:
-    vector<vector<int>>res;
-    void backtrack(vector<int> &nums, vector<bool> &used, vector<int> &curr){
+    void dfs(vector<int> &nums, vector<vector<int>> &res, vector<int> curr, vector<bool> &visited){
         if(curr.size()==nums.size()){
             res.push_back(curr);
             return;
         }
         for(int i=0;i<nums.size();i++){
-            if(!used[i]){
+            if(!visited[i]){
                 curr.push_back(nums[i]);
-                used[i]=true;
-                backtrack(nums,used,curr);
+                visited[i]=true;
+                dfs(nums,res,curr,visited);
+                visited[i]=false;
                 curr.pop_back();
-                used[i]=false;
             }
         }
     }
     vector<vector<int>> permute(vector<int>& nums) {
-        vector<bool> used(nums.size(),false);
-        vector<int>curr;
-        backtrack(nums,used,curr);
+        vector<vector<int>> res;
+        vector<int> curr;
+        vector<bool> visited(nums.size(),false);
+        dfs(nums,res,curr,visited);
         return res;
     }
 };
