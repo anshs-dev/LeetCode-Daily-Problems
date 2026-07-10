@@ -1,30 +1,27 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution {
 public:
-    int camera=0;
-    int dfs(TreeNode* root){
-        if(!root) return -1;
-        int left=dfs(root->left);
-        int right=dfs(root->right);
-        if(left==0 || right==0){
-            camera++;
-            return 1;
+    struct camera{
+        bool has=false;
+        bool need=false;
+        bool covered=false;
+    };
+    int count=0;
+    camera helper(TreeNode* root){
+        if(!root) return {false,false,true};
+        camera left=helper(root->left);
+        camera right=helper(root->right);
+        if(left.need || right.need){
+            count++;
+            return {true,false,true};
         }
-        else if(left==1 || right==1) return -1;
-        else return 0;
+        if(left.has || right.has) return {false,false,true};
+        if(left.covered && right.covered) return {false,true,false};
+        return {false,false,false};  
     }
     int minCameraCover(TreeNode* root) {
-        if(dfs(root)==0) camera++;
-        return camera;
+        camera cam=helper(root);
+        if(cam.need && !cam.covered) count++;
+        //helper(root);
+        return count;
     }
 };
