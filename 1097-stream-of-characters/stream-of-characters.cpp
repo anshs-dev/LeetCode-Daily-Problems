@@ -23,10 +23,12 @@ public:
             return false;
         }
     };
+    int len=0;
     TrieNode* root=new TrieNode();
     StreamChecker(vector<string>& words) {
         for(auto x:words){
             string temp=x;
+            len=max(len,(int)x.size());
             reverse(temp.begin(),temp.end());
             root->insert(temp);
         }
@@ -34,7 +36,7 @@ public:
     string temp="";
     bool query(char letter) {
         temp=letter+temp;
-        while(temp.size()>200) temp.pop_back();
+        while(temp.size()>len) temp.pop_back();
         return root->find(temp);
     }
 };
