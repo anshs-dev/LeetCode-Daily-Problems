@@ -12,9 +12,9 @@ public:
             }
             curr->isEnd=true;
         }
-        bool find(string temp){
+        bool find(deque<char> &dq){
             TrieNode* curr=this;
-            for(char x:temp){
+            for(char x:dq){
                 int idx=x-'a';
                 if(!curr->child[idx]) return false;
                 curr=curr->child[idx];
@@ -34,10 +34,11 @@ public:
         }
     }
     string temp="";
+    deque<char>dq;
     bool query(char letter) {
-        temp=letter+temp;
-        while(temp.size()>len) temp.pop_back();
-        return root->find(temp);
+        dq.push_front(letter);
+        while(dq.size()>len) dq.pop_back();
+        return root->find(dq);
     }
 };
 
