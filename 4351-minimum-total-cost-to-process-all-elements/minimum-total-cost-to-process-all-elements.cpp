@@ -2,7 +2,6 @@ class Solution {
 public:
     int minimumCost(vector<int>& nums, int k) {
         const int mod=1e9+7;
-        sort(nums.begin(),nums.end());
         int count=0,curr=k,start=1;
         for(int x:nums){
             if(curr<x){
