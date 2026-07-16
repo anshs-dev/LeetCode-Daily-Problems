@@ -1,12 +1,15 @@
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
-        int num=-1,count=0;
+        int num1=0,freq=0;
         for(int x:nums){
-            if(count==0) num=x;
-            if(x==num) count++;
-            else count--;
+            if(num1!=x) freq--;
+            else freq++;
+            if(freq<=0){
+                num1=x;
+                freq=1;
+            }
         }
-        return num;
+        return num1;
     }
 };
