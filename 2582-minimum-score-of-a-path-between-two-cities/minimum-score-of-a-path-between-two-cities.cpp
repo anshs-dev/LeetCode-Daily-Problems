@@ -9,16 +9,16 @@ public:
         int res=INT_MAX;
         queue<int>q;
         q.push(1);
-        unordered_set<int>visited;
-        visited.insert(0);
+        vector<bool>visited(n+1,false);
+        visited[0]=true;
         while(!q.empty()){
             int curr=q.front();
             q.pop();
             for(auto x:m[curr]){
                 res=min(res,x[1]);
-                if(!visited.count(x[0])){
+                if(!visited[x[0]]){
                     q.push(x[0]);
-                    visited.insert(x[0]);
+                    visited[x[0]]=true;
                 }
             }
         }
